@@ -176,20 +176,19 @@ get_mpd()
 	const char* title = NULL;
 	const char* artist = NULL;
 	struct mpd_song* song = NULL;
-    struct mpd_connection* conn ;
-    struct mpd_status* theStatus;
+	struct mpd_connection* conn ;
+	struct mpd_status* theStatus;
 
-    if (!(conn = mpd_connection_new(MPD_SERVER, 0, MPD_PORT)) ||
-        mpd_connection_get_error(conn)){
-            return smprintf("[MPD connection error]");
-    }
+	if (!(conn = mpd_connection_new(MPD_SERVER, 0, MPD_PORT)) || mpd_connection_get_error(conn)){
+		return smprintf("[MPD connection error]");
+	}
 
-    mpd_command_list_begin(conn, true);
-    mpd_send_status(conn);
-    mpd_send_current_song(conn);
-    mpd_command_list_end(conn);
+	mpd_command_list_begin(conn, true);
+	mpd_send_status(conn);
+	mpd_send_current_song(conn);
+	mpd_command_list_end(conn);
 
-    theStatus = mpd_recv_status(conn);
+	theStatus = mpd_recv_status(conn);
 
 	if ((theStatus) && (mpd_status_get_state(theStatus) == MPD_STATE_PLAY)) {
 		mpd_response_next(conn);
