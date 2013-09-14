@@ -1,0 +1,2 @@
+# My Suckless Configuration
+
