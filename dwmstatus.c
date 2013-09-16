@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <strings.h>
+#include <signal.h>
 #include <sys/time.h>
 #include <time.h>
 #include <sys/types.h>
@@ -33,6 +34,9 @@
 /* mpd */
 #define MPD_SERVER "localhost"
 #define MPD_PORT 6600
+
+/* TODO implement SIGHUP to reload timezone information. */
+char *tz = NULL;
 
 char *
 smprintf(char *fmt, ...)
@@ -104,7 +108,7 @@ get_bat()
             s = '-';
         if (strcmp(status,"Full") == 0)
             s = '=';
-        return smprintf("[%c%ld]", s,(lnum1/(lnum2/100)));
+        return smprintf("[%c%ld%%]", s,(lnum1/(lnum2/100)));
     }
     else return smprintf("");
 }
@@ -142,7 +146,7 @@ get_vol()
 	}
 	
     sscanf(result, "%i", &volume);
-	return smprintf("[%d%%]", volume);
+	return smprintf("[%ddB]", volume);
 }
 
 char*
@@ -165,7 +169,11 @@ get_wifi()
 
 	iw_sockets_close(sock);
 
-	return smprintf("[%s:%d]", essid, wrq.u.qual.qual);
+	/* No essid found. */
+	if(!strcmp(essid, ""))
+		return smprintf("");
+	else
+		return smprintf("[%s:%d]", essid, wrq.u.qual.qual);
 }
 
 char*
@@ -215,24 +223,36 @@ get_mpd()
 	return retstr;
 }
 
+void
+getTZ(char* tz) {
+	/* Get the timezone from the shell variable. If it's not found use utc */
+	if((tz=getenv("TZ")) == NULL)
+	{
+		tz = DEFAULT_TZ;
+	}
+}
+
+void
+signal_catch(int sig)
+{
+	getTZ(tz);
+}
+
 int
 main(void)
 {
 	static Display *dpy;
 
 	char *stat = NULL;
-	char *tz   = NULL;
 	char *tm   = NULL;
 	char *bat  = NULL;
 	char *vol  = NULL;
 	char *wifi = NULL;
 	char *mpd  = NULL;
 
-	/* Get the timezone from the shell variable. If it's not found use utc */
-	if((tz=getenv("TZ")) == NULL)
-	{
-		tz = DEFAULT_TZ;
-	}
+	signal(SIGUSR1, signal_catch);
+
+	getTZ(tz);
 
 	if (!(dpy = XOpenDisplay(NULL)))
 	{
