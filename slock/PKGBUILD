@@ -1,0 +1,29 @@
+# $Id: PKGBUILD 78848 2012-10-25 20:30:11Z spupykin $
+# Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Sebastian A. Liem <sebastian at liem dot se>
+
+pkgname=slock
+pkgver=1.1
+pkgrel=1
+pkgdesc="A simple screen locker for X"
+arch=('i686' 'x86_64')
+url="http://tools.suckless.org/slock"
+license=('MIT')
+depends=('libxext')
+source=("http://dl.suckless.org/tools/$pkgname-$pkgver.tar.gz"
+		"slock.c.patch")
+#source=("slock-$pkgver.tar.bz2::http://hg.suckless.org/slock/archive/$_pkgver.tar.gz")
+md5sums=('e3b25abdfd54c81562de4d63d3565be7'
+         '6f931c8b90e92bb52433e14622139ffd')
+
+build() {
+  cd "$srcdir/slock-$pkgver"
+  patch slock.c ../../slock.c.patch
+  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+  cd "$srcdir/slock-$pkgver"
+  make PREFIX=/usr DESTDIR="$pkgdir" install
+  install -m644 -D LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
