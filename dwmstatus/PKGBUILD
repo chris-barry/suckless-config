@@ -1,0 +1,28 @@
+pkgname=dwmstatus
+pkgver=1.0
+pkgrel=1
+pkgdesc="A simple status bar"
+arch=('i686' 'x86_64')
+url="https://github.com/chris-barry/dwmstatus"
+license=('MIT')
+depends=('libxext')
+source=("Makefile"
+		"config.mk"
+		"dwmstatus.c"
+		"README.md"
+		"LICENSE")
+md5sums=('039530812cda162a56e896009e4d12ce'
+         '25029d8fe651fdefa95e085c3ab30295'
+         '089e6dfff3f5d6df9e5c3ab49b5c79f8'
+         '09e9b951f2c1395597b8a9d6cad5e90f'
+         '7fbe152261b301aa9a5f0e7388c7143c')
+
+build() {
+  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+  make PREFIX=/usr DESTDIR="$pkgdir" install
+  install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+  install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
+}
