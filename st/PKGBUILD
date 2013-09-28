@@ -1,12 +1,12 @@
 pkgname=st
 pkgver=0.4.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A simple terminal implementation for X."
 url="http://st.suckless.org"
 arch=('i686' 'x86_64')
 license=('MIT')
 makedepends=('ncurses')
-depends=('libxext' 'libxft')
+depends=('libxext' 'libxft' 'ttf-inconsolata')
 
 install=st.install
 source=(http://dl.suckless.org/st/st-$pkgver.tar.gz
