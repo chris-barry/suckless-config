@@ -5,7 +5,7 @@ pkgdesc="A simple status bar"
 arch=('i686' 'x86_64')
 url="https://github.com/chris-barry/dwmstatus"
 license=('MIT')
-depends=('libxext')
+depends=('libxext' 'mpd' 'mpc' 'wireless_tools' 'alsa-utils')
 source=("Makefile"
 		"config.mk"
 		"dwmstatus.c"
@@ -24,5 +24,5 @@ build() {
 package() {
   make PREFIX=/usr DESTDIR="$pkgdir" install
   install -m644 -D LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
-  install -m644 -D README $pkgdir/usr/share/doc/$pkgname/README
+  install -m644 -D README.md $pkgdir/usr/share/doc/$pkgname/README
 }
