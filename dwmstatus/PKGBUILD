@@ -1,6 +1,6 @@
 pkgname=dwmstatus
 pkgver=1.0
-pkgrel=1
+pkgrel=3
 pkgdesc="A simple status bar"
 arch=('i686' 'x86_64')
 url="https://github.com/chris-barry/dwmstatus"
@@ -8,12 +8,14 @@ license=('MIT')
 depends=('libxext' 'mpd' 'mpc' 'wireless_tools' 'alsa-utils')
 source=("Makefile"
 		"config.mk"
+		"config.h"
 		"dwmstatus.c"
 		"README.md"
 		"LICENSE")
 md5sums=('039530812cda162a56e896009e4d12ce'
          '25029d8fe651fdefa95e085c3ab30295'
-         '089e6dfff3f5d6df9e5c3ab49b5c79f8'
+         '931f649b70426d1158801c7beb2b12a5'
+         'c219626101056414683cdfdac38afe36'
          '09e9b951f2c1395597b8a9d6cad5e90f'
          '7fbe152261b301aa9a5f0e7388c7143c')
 
