@@ -149,7 +149,7 @@ get_wifi()
 	iw_sockets_close(sock);
 
 	/* No essid found. */
-	if(!strcmp(essid, ""))
+	if(!strcmp(essid, "") || essid == NULL)
 		return smprintf("");
 	else
 		return smprintf("[%s:%d]", essid, wrq.u.qual.qual);
@@ -229,7 +229,7 @@ main(void)
 	char *wifi = NULL;
 	char *mpd  = NULL;
 
-	signal(SIGUSR1, signal_catch);
+	signal(SIGHUP, signal_catch);
 
 	getTZ(tz);
 
