@@ -1,6 +1,6 @@
 pkgname=dwmstatus
 pkgver=1.3
-pkgrel=1
+pkgrel=2
 pkgdesc="A simple status bar"
 arch=('i686' 'x86_64')
 url="https://github.com/chris-barry/dwmstatus"
@@ -13,13 +13,17 @@ source=("Makefile"
 		"README.md"
 		"LICENSE")
 md5sums=('039530812cda162a56e896009e4d12ce'
-         '25029d8fe651fdefa95e085c3ab30295'
+         'fb88a23cd9b12809620316fe1908f53a'
          '931f649b70426d1158801c7beb2b12a5'
-         '2c89e47f36016c1d195c744de4a74606'
+         'a33a0ddbbf0c8b3602f416a66e5395d4'
          '09e9b951f2c1395597b8a9d6cad5e90f'
-         '7fbe152261b301aa9a5f0e7388c7143c')
+         'cadf2ac6e2ce0a39b445c9928e372290')
 
 build() {
+  sed -i 's/CPPFLAGS =/CPPFLAGS +=/g' config.mk
+  sed -i 's/CFLAGS =/CFLAGS +=/g' config.mk
+  sed -i 's/LDFLAGS =/LDFLAGS +=/g' config.mk
+
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
 }
 

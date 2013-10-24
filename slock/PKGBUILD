@@ -4,7 +4,7 @@
 
 pkgname=slock
 pkgver=1.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A simple screen locker for X"
 arch=('i686' 'x86_64')
 url="http://tools.suckless.org/slock"
@@ -12,12 +12,16 @@ license=('MIT')
 depends=('libxext')
 source=("http://dl.suckless.org/tools/$pkgname-$pkgver.tar.gz"
 		"slock.c.patch")
-#source=("slock-$pkgver.tar.bz2::http://hg.suckless.org/slock/archive/$_pkgver.tar.gz")
 md5sums=('e3b25abdfd54c81562de4d63d3565be7'
          '6f931c8b90e92bb52433e14622139ffd')
 
 build() {
   cd "$srcdir/slock-$pkgver"
+
+  sed -i 's/CPPFLAGS =/CPPFLAGS +=/g' config.mk
+  sed -i 's/CFLAGS =/CFLAGS +=/g' config.mk
+  sed -i 's/LDFLAGS =/LDFLAGS +=/g' config.mk
+
   patch slock.c ../../slock.c.patch
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
 }

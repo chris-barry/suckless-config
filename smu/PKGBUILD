@@ -1,6 +1,6 @@
 pkgname=smu
 pkgver=1.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Simple markup - markdown like syntax"
 arch=('i686' 'x86_64')
 url="https://github.com/Gottox/smu"
@@ -11,6 +11,11 @@ md5sums=('5fda29998974b50cef6a2bb6ddab4a02')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
+
+  sed -i 's/CPPFLAGS =/CPPFLAGS +=/g' config.mk
+  sed -i 's/CFLAGS =/CFLAGS +=/g' config.mk
+  sed -i 's/LDFLAGS =/LDFLAGS +=/g' config.mk
+
   make
 }
 
